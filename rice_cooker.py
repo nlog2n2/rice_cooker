@@ -3,12 +3,13 @@
 import os, datetime, secrets, string
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
-import requests
+import requests, json
 
 # Please Write Your Wi-Fi Setting & Slack Token & Font Path
 CONPANY_NAME        = 'GUEST'
 ENCRYPTION_METHOD   = 'WPA'
 SLACK_TOKEN         = ''
+SLACK_CHANNEL       = 'freewifi-dev'
 FONT_PATH           = '/usr/share/fonts/dejavu/DejaVuSans.ttf'
 
 # Password Length & Font Size Setting
@@ -64,4 +65,7 @@ wifi_conneting_infomation_image.paste(base_image,(0,qrcode_image.size[HEIGHT_IND
 wifi_conneting_infomation_image_path = os.curdir + '/' + '{0:%Y%m%d-%H%M%S}'.format(carete_timestamp) +'result.png'
 wifi_conneting_infomation_image.save(wifi_conneting_infomation_image_path)
 
-
+# Throw wifi_conneting_infomation_image to Slack
+param = {'token':SLACK_TOKEN, 'channels':SLACK_CHANNEL,'initial_comment': '/'.join(wifi_conneting_infomation_list)}
+files = {'file': open(wifi_conneting_infomation_image_path, 'rb')}
+requests.post(url='https://slack.com/api/files.upload',params=param, files=files)
