@@ -19,6 +19,8 @@ FONT_SIZE           = 20
 WIDTH_INDEX         = 0
 HEIGHT_INDEX        = 1
 
+# Base Image Height
+BASE_IMAGE_HEIGHT   = 60
 #########################################################
 ## main
 #########################################################
@@ -38,7 +40,7 @@ wifi_conneting_infomation_list  = ['SSID: ' + monthly_ssid , 'Password: ' + mont
 qrcode_image                    = qrcode.make(wifi_conneting_infomation)
 
 # Create Wi-Fi Infomation Image
-base_image                      = Image.new('RGB', (410, 60), 'white')
+base_image                      = Image.new('RGB', (qrcode_image.size[WIDTH_INDEX], BASE_IMAGE_HEIGHT), 'white')
 wifi_conneting_infomation_draw  = ImageDraw.Draw(base_image)
 wifi_conneting_infomation_font  = ImageFont.truetype(FONT_PATH,FONT_SIZE)
 writing_position = 0
