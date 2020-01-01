@@ -10,7 +10,6 @@ ENCRYPTION_METHOD   = 'WPA'
 SLACK_TOKEN         = ''
 FONT_PATH           = '/usr/share/fonts/dejavu/DejaVuSans.ttf'
 
-SSID_MAX_LENGTH     = 20
 PASSWORD_MAX_LENGTH = 16
 FONT_SIZE           = 20
 
@@ -28,10 +27,10 @@ monthly_password                = ''.join([secrets.choice(string.ascii_letters) 
 wifi_conneting_infomation       = 'WIFI:T:' + ENCRYPTION_METHOD + ';S:' + monthly_ssid + ';P:' + monthly_password + ';;'
 wifi_conneting_infomation_list  = ['SSID: ' + monthly_ssid , 'Password: ' + monthly_password]
 
-# Saving QR Code Image
+# Create QR Code Image
 qrcode_image                    = qrcode.make(wifi_conneting_infomation)
 
-# Saving Wi-Fi Infomation Image
+# Create Wi-Fi Infomation Image
 base_image                      = Image.new('RGB', (410, 60), 'white')
 wifi_conneting_infomation_draw  = ImageDraw.Draw(base_image)
 wifi_conneting_infomation_font  = ImageFont.truetype(FONT_PATH,FONT_SIZE)
@@ -44,5 +43,9 @@ for printing_inromation in wifi_conneting_infomation_list:
     writing_position = writing_position + 20
     print(printing_inromation)
 
-qrcode_image.save('/home/vagrant/rice_cooker/qrcode.png')
-base_image.save('/home/vagrant/rice_cooker/base.png')
+# Concat QR code Image & Wi-Fi Infomation Image
+height , width = qrcode_image.size
+result_image = Image.new('RGB',(width, height + base_image.height))
+result_image.paste(qrcode_image,(0,0))
+result_image.paste(base_image,(0,height))
+result_image.save('/home/vagrant/rice_cooker/result.png')
