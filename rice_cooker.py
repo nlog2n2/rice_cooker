@@ -57,6 +57,9 @@ wifi_conneting_infomation_image = Image.new('RGB',
 
 wifi_conneting_infomation_image.paste(qrcode_image,(0,0))
 wifi_conneting_infomation_image.paste(base_image,(0,qrcode_image.size[HEIGHT_INDEX]))
-wifi_conneting_infomation_image.save('/home/vagrant/rice_cooker/result.png') # 日付
+
+# Saving wifi_conneting_infomation_image
+wifi_conneting_infomation_image_path = os.curdir + '/' + '{0:%Y%m%d-%H%M%S}'.format(carete_timestamp) +'result.png'
+wifi_conneting_infomation_image.save(wifi_conneting_infomation_image_path)
 
 
